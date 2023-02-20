@@ -1,11 +1,13 @@
 import Head from 'next/head'
-import { Inter } from '@next/font/google'
-import Header from 'components/Header'
-import Banner from 'components/Banner'
+import Header from '@/components/Header'
+import Banner from '@/components/Banner'
+import https from 'https'
+import SmallCard from '@/components/SmallCard';
+import MediumCard from '@/components/MediumCard'
+import LargeCard from '@/components/LargeCard'
+import Footer from '@/components/Footer'
 
-const inter = Inter({ subsets: ['latin'] })
-
-export default function Home() {
+export default function Home({exploreData, cardsData}) {
   return (
     <div>
       <Head>
@@ -16,6 +18,50 @@ export default function Home() {
       </Head>
       <Header/>
       <Banner/>
+
+      <main className='mx-auto max-w-7xl px-8 sm:px-16'>
+        <section className='pt-6'>
+          <h2 className='font-semibold pb-5 text-4xl'>Explore nearby</h2>
+          <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4'>
+          {/** Pull from API endpoints static Rendering*/}
+          {exploreData?.map((item, index) => (
+            <SmallCard key={index} img={item.img} distance={item.distance} location={item.location} />
+          ))}
+          </div>
+        </section>
+
+        <section>
+          <h2 className='text-4xl font-semibold py-8'>Live Anywhere</h2>
+          <div className='flex space-x-3 overflow-scroll scrollbar-hide p-3 -ml-3'>
+          {cardsData?.map(({img, title}, index) => (
+            <MediumCard key={index} img={img} title={title} />
+          ))}
+          </div>
+        </section>
+
+        <LargeCard img="https://links.papareact.com/4cj"
+        title="The Greatest Outdoors"
+        description="WishLists curated by Airbnb"
+        buttonText="Get Inspired" />
+      </main>
+
+      <Footer />
     </div>
   )
+}
+
+// server components work only inside pages/
+export async function getStaticProps() {
+  const data = await fetch("https://links.papareact.com/pyp", {
+    agent: new https.Agent({ rejectUnauthorized: false })
+  });
+  const exploreData = await (await data).json();
+
+  const cardsData = await fetch("https://links.papareact.com/zp1", { agent: new https.Agent({ rejectUnauthorized: false})}).then(res => res.json());
+  return {
+      props: {
+          exploreData,
+          cardsData,
+      },
+  };
 }
