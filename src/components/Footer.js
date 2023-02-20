@@ -9,7 +9,7 @@ function Footer() {
         {title:"Airbnb" ,value: ["Newsroom", "Learn about new features", "Letter from our founders", "Careers", "Investors", "Gift cards"]}
     ];
 
-  return
+  return(
     <div className='grid grid-cols-1 md:grid-cols-4 gap-x-3 space-y-10 px-32 py-14 bg-gray-100 text-gray-600'>
        {
         footerArray.map(({title, value, index}) => (
@@ -21,7 +21,7 @@ function Footer() {
             </div>
         ))
        }
-    </div>
+    </div>);
 }
 
-export default Footer
+export default Footer;
