@@ -82,3 +82,9 @@
   margin: 0;
   -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
+
+@layer components {
+  .button-search-page{
+    @apply px-4 py-2 hover:shadow-lg cursor-pointer border rounded-full active:scale-95 transition transform duration-100 ease-out;
+  }
+}
